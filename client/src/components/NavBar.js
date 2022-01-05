@@ -1,10 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
 
+import AuthService from '../services/auth'
+
+import { useHistory } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 
 import M from "materialize-css/dist/js/materialize.min.js";
 
 export default function NavBar() {
+
+  const history = useHistory();
+
+  const [user, setUser] = useState(null);
+
   // Initialize sidebar
   useEffect(() => {
     let elem = document.querySelector(".sidenav");
@@ -12,7 +21,17 @@ export default function NavBar() {
       edge: "left",
       inDuration: 250,
     });
+
+    // Check for logged in user
+    let loggedInUser = AuthService.checkLoggedIn();
+    if (loggedInUser) setUser(loggedInUser);
   }, []);
+
+  function logoutUser() {
+    AuthService.logout();
+    history.push("/login");
+    window.location.reload(false);
+  }
 
   return (
     <>
@@ -32,6 +51,15 @@ export default function NavBar() {
             <li>
               <Link to="/latest">Latest Pastes</Link>
             </li>
+
+            {user ? <li>
+              <Link onClick={logoutUser}>Logout</Link>
+            </li> : <><li>
+              <Link to="/login">Login</Link>
+            </li>
+              <li>
+                <Link to="/register">Register</Link>
+              </li></>}
           </ul>
         </div>
       </nav>

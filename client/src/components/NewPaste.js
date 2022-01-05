@@ -90,14 +90,14 @@ export default function NewPaste() {
           <div className="card">
             <div className="card-content">
               {/* <i
-                class="material-icons prefix"
+                className="material-icons prefix"
                 style={{ verticalAlign: "bottom", marginRight: "10px" }}
               >
                 edit
               </i> */}
               <span className="details-heading">Paste Title</span>
               <div className="input-field">
-                <i class="material-icons prefix small">edit</i>
+                <i className="material-icons prefix small">edit</i>
                 <input
                   placeholder="Paste Title"
                   type="text"
@@ -106,14 +106,14 @@ export default function NewPaste() {
                 />
               </div>
               {/* <i
-                class="material-icons prefix"
+                className="material-icons prefix"
                 style={{ verticalAlign: "bottom", marginRight: "10px" }}
               >
                 access_time
               </i> */}
               <span className="details-heading">Timeout In Minutes</span>
               <div className="input-field">
-                <i class="material-icons prefix small">access_time</i>
+                <i className="material-icons prefix small">access_time</i>
                 <input
                   placeholder="Timeout of pastes"
                   type="number"
@@ -123,14 +123,14 @@ export default function NewPaste() {
                 />
               </div>
               {/* <i
-                class="material-icons prefix"
+                className="material-icons prefix"
                 style={{ verticalAlign: "bottom", marginRight: "10px" }}
               >
                 link
               </i> */}
               <span className="details-heading">Paste Link</span>
               <div className="input-field">
-                <i class="material-icons prefix small">link</i>
+                <i className="material-icons prefix small">link</i>
                 <input
                   placeholder="Paste Link"
                   type="text"

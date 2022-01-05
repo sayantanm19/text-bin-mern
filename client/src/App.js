@@ -7,6 +7,8 @@ import NewPaste from "./components/NewPaste";
 import LatestPastes from "./components/LatestPastes";
 import ShowPaste from "./components/ShowPaste";
 
+import Login from "./components/Login"
+
 function App() {
   return (
     <Router>
@@ -17,6 +19,7 @@ function App() {
             <Route path="/" exact component={NewPaste}></Route>
             <Route path="/latest" component={LatestPastes}></Route>
             <Route path="/paste/:idx" component={ShowPaste}></Route>
+            <Route path="/login" component={Login}></Route>
           </Switch>
         </main>
         <Footer></Footer>
