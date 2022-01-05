@@ -53,7 +53,7 @@ export default function NavBar() {
             </li>
 
             {user ? <li>
-              <Link onClick={logoutUser}>Logout</Link>
+              <Link to="/" onClick={logoutUser}>Logout</Link>
             </li> : <><li>
               <Link to="/login">Login</Link>
             </li>

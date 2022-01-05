@@ -37,7 +37,7 @@ export const login = async (req, res) => {
 
                     // Create a JWT token when verified and return it
                     let token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
-                    res.json({ token });
+                    res.json({ token, user });
                 } else {
                     res.status(401).send({ error: 'Authentication failed. Wrong password.' });
                 }

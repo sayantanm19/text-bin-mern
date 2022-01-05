@@ -4,6 +4,8 @@ import moment from "moment";
 
 import axios from "axios";
 
+import AuthService from '../services/auth'
+
 import { UnControlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
@@ -14,17 +16,35 @@ export default function ShowPaste(props) {
     idx: "",
     paste: "",
     title: "",
+    author: "",
+    isPrivate: false,
     expireAt: Date.now(),
     createdAt: Date.now(),
   });
 
+  const [user, setUser] = useState({token: "lol"});
+
   let idx = props.match.params.idx;
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/get/${idx}`).then((res) => {
-      setPaste(res.data);
-    });
+    // Check for logged in user
+    let loggedInUser = AuthService.checkLoggedIn();
+    if (loggedInUser) setUser(loggedInUser);
   }, []);
+
+  useEffect(() => {
+
+    if (user.token) {
+      axios.get(`http://localhost:5000/get/${idx}`, {
+        headers: {
+          'Authorization': 'Bearer ' + user.token
+        }
+      }).then((res) => {
+        setPaste(res.data);
+      });
+    }
+
+  }, [user]);
 
   return (
     <div>

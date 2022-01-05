@@ -4,6 +4,7 @@ import M from "materialize-css/dist/js/materialize.min.js";
 
 import { Redirect, Link, useHistory } from "react-router-dom";
 import { customAlphabet } from "nanoid";
+import AuthService from '../services/auth'
 
 import axios from "axios";
 
@@ -21,12 +22,18 @@ export default function NewPaste() {
   const [pasteContent, setPasteContent] = useState("");
   const [timeout, setTimeout] = useState(0);
   const [pasteID, setPasteID] = useState(nanoid());
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [user, setUser] = useState({ user: { username: "anonymous"}});
 
   let history = useHistory();
 
-  function submitPaste() {
-    // console.log(title, pasteContent, timeout, pasteID);
+  useEffect(() => {
+    // Check for logged in user
+    let loggedInUser = AuthService.checkLoggedIn();
+    if (loggedInUser) setUser(loggedInUser);
+  }, []);
 
+  function submitPaste() {
     let exp_date;
 
     if (timeout > 0) {
@@ -36,12 +43,16 @@ export default function NewPaste() {
       exp_date = null;
     }
 
+    console.log(user.user.username);
+
     axios
       .post("http://localhost:5000/add", {
         idx: pasteID,
         title: title,
         paste: pasteContent,
         expireAt: exp_date,
+        isPrivate: isPrivate,
+        author: user.user.username
       })
       .then(() => {
         M.toast({ html: "Paste was successfully inserted!" });
@@ -122,6 +133,9 @@ export default function NewPaste() {
                   onChange={(e) => setTimeout(e.target.value)}
                 />
               </div>
+
+              {/* <span className="details-heading">Private Paste</span> */}
+
               {/* <i
                 className="material-icons prefix"
                 style={{ verticalAlign: "bottom", marginRight: "10px" }}
@@ -138,6 +152,17 @@ export default function NewPaste() {
                   onChange={(e) => setPasteID(e.target.value)}
                 />
               </div>
+
+              <span className="details-heading">Privacy</span>
+              <div class="switch">
+                <label>
+                  Public
+                  <input type="checkbox" defaultChecked={isPrivate} onChange={() => setIsPrivate(!isPrivate)} />
+                  <span class="lever"></span>
+                  Private
+                </label>
+              </div>
+
               <button onClick={submitPaste} className="btn purple darken-4">
                 Add New Paste
               </button>
