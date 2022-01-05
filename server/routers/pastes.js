@@ -12,9 +12,9 @@ router.get('/hello', (req, res) => {
 })
 
 router.post('/add', createPaste);
-router.get('/get/:idx',  getPaste);
-router.get('/getall',  getAllPastes);
-router.get('/edit',  editPaste);
-router.get('/delete',  deletePaste);
+router.get('/get/:idx', getPaste);
+router.get('/getall', getAllPastes);
+router.get('/edit', editPaste);
+router.get('/delete', deletePaste);
 
 export default router;
