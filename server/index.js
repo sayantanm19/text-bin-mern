@@ -17,10 +17,12 @@ mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
   })
-  .catch((error) => console.log("MongoDB Error", error));
+  .catch((error) => console.log("MongoDB Error:", error));
+
+mongoose.connection.on('connected', function () {  
+  console.log('Connected');
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`App listening at http://localhost:${process.env.PORT}`);
