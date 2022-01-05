@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt-nodejs";
 import dotenv from "dotenv";
 

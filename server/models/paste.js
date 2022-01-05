@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const pasteSchema = mongoose.Schema({
   idx: { type: String, required: true },
-  paste: { type: String, required: true },
-  title: { type: String, required: true },
+  paste: { type: String,  },
+  title: { type: String,  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -7,14 +7,10 @@ router.get('/', (req, res) => {
   res.send('Please do something!');
 })
 
-router.get('/hello', (req, res) => {
-  res.send("Hello");
-})
-
 router.post('/add', createPaste);
 router.get('/get/:idx', getPaste);
 router.get('/getall', getAllPastes);
-router.get('/edit', editPaste);
-router.get('/delete', deletePaste);
+router.put('/edit/:idx', editPaste);
+router.delete('/delete/:idx', deletePaste);
 
 export default router;

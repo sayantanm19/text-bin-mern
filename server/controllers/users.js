@@ -3,18 +3,20 @@ import User from "../models/user.js";
 
 export const register = async (req, res) => {
     if (!req.body.username || !req.body.password) {
-        res.json({ success: false, msg: 'Please pass username and password.' });
+        res.json({ error: 'Please pass both username and password.' });
     } else {
-        var newUser = new User({
+
+        // Create and save the new user
+        let newUser = new User({
             username: req.body.username,
             password: req.body.password
         });
-        // save the user
+
         newUser.save(function (err) {
             if (err) {
-                return res.json({ success: false, msg: 'Username already exists.' });
+                return res.json({ error: 'Username already exists.' });
             }
-            res.json({ success: true, msg: 'Successful created new user.' });
+            res.json({error: 'Successful created new user.' });
         });
     }
 };
@@ -28,12 +30,13 @@ export const login = async (req, res) => {
         if (!user) {
             res.status(401).send({ error: 'Authentication failed. User not found.' });
         } else {
-            // check if password matches
+            
+            // Check if password matches
             user.comparePassword(req.body.password, function (err, isMatch) {
-                if (isMatch && !err) {
-                    // if user is found and password is right create a token
-                    var token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
-                    // return the information including token as JSON
+                if (!err && isMatch) {
+
+                    // Create a JWT token when verified and return it
+                    let token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
                     res.json({ token });
                 } else {
                     res.status(401).send({ error: 'Authentication failed. Wrong password.' });

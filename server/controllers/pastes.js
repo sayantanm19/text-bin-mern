@@ -42,10 +42,33 @@ export const createPaste = async (req, res) => {
   }
 };
 
-export const editPaste = (req, res) => {
-  res.send("Editing Paste");
+export const editPaste = async (req, res) => {
+
+  const editedPaste = req.body;
+
+  try {
+    Pastes.findOneAndUpdate({ idx: req.params.idx }, editedPaste, function (err, doc) {
+      if (err) return res.status(500).send({ error: err });
+
+      if (doc) return res.status(200).send('Succesfully saved.');
+      return res.status(404).send('Document not found.');
+    });
+
+  } catch (error) {
+    res.status(409).send(error.message);
+  }
 };
 
 export const deletePaste = (req, res) => {
-  res.send("Deleting Paste");
+
+  try {
+    Pastes.findOneAndDelete({ idx: req.params.idx }, function (err, doc) {
+      if (err) return res.status(500).send({ error: err });
+
+      if (doc) return res.status(202).json("Successfully deleted");
+      return res.status(404).send('Document not found.');
+    });
+  } catch (error) {
+    res.status(409).send(error.message);
+  }
 };
