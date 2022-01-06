@@ -43,8 +43,6 @@ export default function NewPaste() {
       exp_date = null;
     }
 
-    console.log(user.user.username);
-
     axios
       .post("http://localhost:5000/add", {
         idx: pasteID,

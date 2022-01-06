@@ -6,6 +6,8 @@ import axios from "axios";
 
 import AuthService from '../services/auth'
 
+import { useHistory } from "react-router-dom";
+
 import { UnControlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
@@ -22,9 +24,10 @@ export default function ShowPaste(props) {
     createdAt: Date.now(),
   });
 
-  const [user, setUser] = useState({token: "lol"});
+  const [user, setUser] = useState({ token: "lol" });
 
   let idx = props.match.params.idx;
+  let history = useHistory();
 
   useEffect(() => {
     // Check for logged in user
@@ -46,9 +49,22 @@ export default function ShowPaste(props) {
 
   }, [user]);
 
+  function deletePaste() {
+    axios.delete(`http://localhost:5000/delete/${idx}`, {
+      headers: {
+        'Authorization': 'Bearer ' + user.token
+      }
+    }).then(() => {
+      console.log("Deleted Paste");
+
+      history.push("/");
+      window.location.reload(false);
+    });
+  }
+
   return (
     <div>
-      {paste ? (
+      {paste.idx != "" ? (
         <div>
           <h3>{paste.title}</h3>
           <CodeMirror
@@ -115,6 +131,12 @@ export default function ShowPaste(props) {
               >
                 Copy
               </button>
+            </div>
+          </div>
+          <h4>Delete this Paste</h4>
+          <div className="row">
+            <div className="col s8">
+              <button className="btn btn-danger" onClick={deletePaste}>Delete Paste</button>
             </div>
           </div>
         </div>
